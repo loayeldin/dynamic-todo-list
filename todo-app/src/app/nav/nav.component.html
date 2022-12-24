@@ -1,0 +1,113 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark has-gradient-text ">
+    <a class="navbar-brand" href="#">todo app</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav ml-auto">
+
+        <li class="nav-item active">
+          <button type="button" class="btn btn-nav  btn-lg" data-toggle="modal" data-target="#exampleModal">create board <fa-icon [icon]="faPlus"></fa-icon></button>
+        </li>
+       
+        
+      </ul>
+    </div>
+  </nav>
+
+
+
+  <!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-capitalize" id="exampleModalLabel">create new board</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+        <form [formGroup]="boardForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label for="exampleInputEmail1">board name</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="exampleInputEmail1" 
+              aria-describedby="emailHelp"
+              formControlName="name"
+              required
+              >
+              <div *ngIf="boardForm.get('name')?.invalid== true && boardForm.get('name')?.touched == true" class="alert alert-danger text-capitalize" role="alert">
+               <fa-icon [icon]="faExclamationCircle"></fa-icon> Board Name required
+              </div>
+          </div>
+         
+
+          <div class="form-group">
+            <label for="exampleInputPassword1">task category</label>
+            <input
+             type="text" 
+             class="form-control" 
+             id="exampleInputPassword1"
+             formControlName="category"
+             required
+  
+             >
+
+             <div *ngIf="boardForm.get('category')?.invalid== true && boardForm.get('category')?.touched == true" class="alert alert-danger text-capitalize" role="alert">
+              <fa-icon [icon]="faExclamationCircle"></fa-icon> Category Required
+             </div>
+          </div>
+
+          <div class="form-group" formArrayName="tasks">
+            
+          
+
+            <div >
+               <label for="exampleInputPassword1" class="mt-2">tasks</label>
+            <div class="div mt-2" 
+          
+            *ngFor="let taskCrtl of tasks.controls; let i=index"
+            [formGroupName]="i"
+            >
+
+            <div class="d-flex justify-content-between">
+                
+              <input 
+                type="text" 
+                class="form-control" 
+                id="exampleInputPassword1" 
+                formControlName="task"
+                >
+                <button class="btn btn-danger" (click)="deleteTask(i)">X</button>
+            </div>
+
+            
+               
+            </div>
+
+            </div>
+          </div>
+
+          <button class="btn btn-success" type="button" (click)="addTask()" > add task</button>
+        
+        
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary btn-danger" data-dismiss="modal" (click)="close()" >Close</button>
+            <button type="submit" class="btn btn-success"   [disabled]="!boardForm.valid">Add Board</button>
+          </div>
+        </form>
+
+
+
+      </div>
+      
+    </div>
+  </div>
+</div>
